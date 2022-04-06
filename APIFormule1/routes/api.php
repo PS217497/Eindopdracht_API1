@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ConstructorController;
+use App\Http\Controllers\DriverController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +19,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::apiResource('constructors', ConstructorController::class)->parameters(['constructors' => 'constructor']);
+Route::apiResource('drivers', DriverController::class)->parameters(['drivers' => 'driver']);
+
+Route::get('constructors/{id}/drivers', [DriverController::class, 'indexFunctie']);
+Route::delete('constructors/{id}/drivers', [DriverController::class, 'destroyFunctie']);
