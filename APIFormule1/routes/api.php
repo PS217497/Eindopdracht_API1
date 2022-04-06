@@ -17,7 +17,7 @@ use App\Http\Controllers\DriverController;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    return $request->user();f
 });
 Route::apiResource('constructors', ConstructorController::class)->parameters(['constructors' => 'constructor']);
 Route::apiResource('drivers', DriverController::class)->parameters(['drivers' => 'driver']);
