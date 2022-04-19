@@ -15,12 +15,12 @@
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script> 
 </head> 
 <body onload="laad()"> 
-    <h1>Handboek PHP CRUD+</h1>  
+    <h1>Formula1</h1>  
 	<div>
-		<label>hoofdstuk:</label><select id="hoofdstuk" onclick="laadhoofdstukScripts()" ></select>
+		<label>constructor:</label><select id="constructor" onclick="laadconstructordrivers()" ></select>
 	</div>
 	<br/>
-	<table><tr><th>Naam</th><th>bestand</th></tr>
+	<table><tr><th>Name</th><th>Url</th></tr>
 		<tbody id="tabelInhoud"/>
 	</table>
 	
@@ -29,8 +29,8 @@
 	<button onclick="Forward()">-></button>
 
 	<div>
-		<label>naam:</label><input type="text" id="naam" required/><br/>
-		<label>bestand:</label><input type="text" id="bestand" />
+		<label>Name:</label><input type="text" id="Name" required/><br/>
+		<label>Url:</label><input type="text" id="Url" />
 		<button onclick="voegToe()" type="button">Toevoegen</button>
 	</div>
 
@@ -41,71 +41,71 @@
 		"use strict"
 		// const apiBasis = "http://localhost/apiFormula1"
         const apiBasis = "http://127.0.0.1:8000/api/"
-        const api = apiBasis + "scripts/"
-        const apiHoofdstukken = apiBasis + "hoofdstukken/"
+        const api = apiBasis + "drivers/"
+        const apiconstructors = apiBasis + "constructors/"
 		
-		let hoofdstukken = []
+		let constructors = []
 		let json = null
 		let offset = 0
 
 		const Back = () => {
             if(offset > 5){
                 offset = offset - 6;
-                laadhoofdstukScripts()
+                laadconstructordrivers()
             }
         }
         const Forward = () => {
             offset = offset + 6;
-            laadhoofdstukScripts()
+            laadconstructordrivers()
         }
 
-		const laadHoofdstukken = async () => {                           
-            const response = await axios.get(apiHoofdstukken)
+		const laadconstructors = async () => {                           
+            const response = await axios.get(apiconstructors)
             const json = await response.data
 			let nieuweInhoud = ''
 			json.map(el => {
-				hoofdstukken[el.id] = el.naam 
-				nieuweInhoud += `<option value="${el.id}">${el.id} ${el.naam}</option>`
+				constructors[el.id] = el.Name 
+				nieuweInhoud += `<option value="${el.id}">${el.id} ${el.Name}</option>`
 			})
-			document.querySelector("#hoofdstuk").innerHTML = nieuweInhoud
-			console.log(hoofdstukken)
+			document.querySelector("#constructor").innerHTML = nieuweInhoud
+			console.log(constructors)
 		}
 
-		const laadhoofdstukScripts = async () => {  
-			const hoofdstuk  = document.querySelector("#hoofdstuk").value
-			console.log('selecteer hoofdstuk ', hoofdstuk)
-			const apiHoofdstukkenScripts = `${apiHoofdstukken}${hoofdstuk}/scripts?limit=6&offset=${offset}`
-            const response = await axios.get(apiHoofdstukkenScripts)
+		const laadconstructordrivers = async () => {  
+			const constructor  = document.querySelector("#constructor").value
+			console.log('selecteer constructor', constructor)
+			const apiconstructorsdrivers = `${apiconstructors}${constructor}/drivers?limit=6&offset=${offset}`
+            const response = await axios.get(apiconstructorsdrivers)
             json = await response.data
-			toonScripts()
+			toondrivers()
 		}
 
-		const toonScripts = () => {    
+		const toondrivers = () => {    
 			let tabelInhoud = ''
-			json.map(el => tabelInhoud += `<tr><td>${el.naam}</td><td>${el.bestand}</td><td onclick="verwijder(${el.id})"> x </td></tr>`) 
+			json.map(el => tabelInhoud += `<tr><td>${el.Name}</td><td>${el.Url}</td><td onclick="verwijder(${el.id})"> x </td></tr>`) 
 			document.querySelector("#tabelInhoud").innerHTML = tabelInhoud
 		}
 
 		const laad = async () => {
-			await laadHoofdstukken()
-			await laadhoofdstukScripts()
-			toonScripts()
+			await laadconstructors()
+			await laadconstructordrivers()
+			toondrivers()
 		}
 
 		const voegToe = async () => {
-            const naam     = document.querySelector("#naam").value
-            const bestand = document.querySelector("#bestand").value
-            const hoofdstuk    = document.querySelector("#hoofdstuk").value
-            const jsonstring = {"naam":naam, "bestand":bestand, "hoofdstuk_id":hoofdstuk}
+            const Name     = document.querySelector("#Name").value
+            const Url = document.querySelector("#Url").value
+            const constructor    = document.querySelector("#constructor").value
+            const jsonstring = {"Name":Name, "Url":Url, "constructor_id":constructor}
             console.log("voeg toe: ",jsonstring)
-            const respons = await axios.post(apiScripts, jsonstring, {headers: {'Content-Type': 'application/json'}})
+            const respons = await axios.post(apidrivers, jsonstring, {headers: {'Content-Type': 'application/json'}})
             console.log('status code', respons.status)
             await laad()
 		}		
 
 		const verwijder = async (id) => {
 			console.log("verwijder: ",id)
-			const respons = await axios.delete(apiScripts+id)
+			const respons = await axios.delete(apidrivers+id)
 			console.log('status code', respons.status)
 			await laad()
 		}		
