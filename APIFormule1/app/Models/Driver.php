@@ -9,6 +9,7 @@ class Driver extends Model
 {
     use HasFactory;
     protected $table = 'drivers';
-    protected $fillable = ['naam', 'bestand', 'hoofdstuk_id'];
+    protected $fillable = ['Name','Code','Number','Nationality','Url', 'constructor_id'];
     public $timestamps = false;
 }
+

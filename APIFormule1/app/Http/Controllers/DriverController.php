@@ -47,9 +47,9 @@ class DriverController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Driver $drivers)
+    public function show(Driver $driver)
     {
-        return $drivers;
+        return $driver;
     }
 
     /**
@@ -82,9 +82,9 @@ class DriverController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Driver $drivers)
+    public function destroy(Driver $driver)
     {
-        $drivers->delete();
+        $driver->delete();
     }
 
     public function indexFunctie(Request $request, $id)
@@ -95,8 +95,8 @@ class DriverController extends Controller
             return Driver::where('constructor_id',$id)->skip($request->offset)->take($request->limit)->get();
         return Driver::where('constructor_id',$id)->get();
     }
-    public function destroyFunctie($id)
+    public function destroyFunctie(Driver $driver)
     {
-        Driver::where('constructor_id', $id)->delete();
+        $driver->delete();
     }
 }

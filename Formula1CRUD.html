@@ -1,7 +1,7 @@
 <!DOCTYPE html>                                      
 <html lang="nl"> 
 <head> 
-	<title> Handboek CRUD+</title> 
+	<title> Formula1</title> 
 	<meta charset="utf-8" /> 
 	<style>
         div, footer, form {margin-top: 20px;}
@@ -20,7 +20,7 @@
 		<label>constructor:</label><select id="constructor" onclick="laadconstructordrivers()" ></select>
 	</div>
 	<br/>
-	<table><tr><th>Name</th><th>Url</th></tr>
+	<table><tr><th>Name</th><th>Code</th><th>Number</th><th>Nationality</th><th>Url</th></tr>
 		<tbody id="tabelInhoud"/>
 	</table>
 	
@@ -30,6 +30,9 @@
 
 	<div>
 		<label>Name:</label><input type="text" id="Name" required/><br/>
+		<label>Code:</label><input type="text" id="Code" required/><br/>
+		<label>Number:</label><input type="text" id="Number" required/><br/>
+		<label>Nationality:</label><input type="text" id="Nationality" required/><br/>
 		<label>Url:</label><input type="text" id="Url" />
 		<button onclick="voegToe()" type="button">Toevoegen</button>
 	</div>
@@ -41,7 +44,7 @@
 		"use strict"
 		// const apiBasis = "http://localhost/apiFormula1"
         const apiBasis = "http://127.0.0.1:8000/api/"
-        const api = apiBasis + "drivers/"
+        const apidrivers = apiBasis + "drivers/"
         const apiconstructors = apiBasis + "constructors/"
 		
 		let constructors = []
@@ -82,7 +85,7 @@
 
 		const toondrivers = () => {    
 			let tabelInhoud = ''
-			json.map(el => tabelInhoud += `<tr><td>${el.Name}</td><td>${el.Url}</td><td onclick="verwijder(${el.id})"> x </td></tr>`) 
+			json.map(el => tabelInhoud += `<tr><td>${el.Name}</td><td>${el.Code}</td><td>${el.Number}</td><td>${el.Nationality}</td><td>${el.Url}</td><td onclick="verwijder(${el.id})"> x </td></tr>`) 
 			document.querySelector("#tabelInhoud").innerHTML = tabelInhoud
 		}
 
@@ -93,13 +96,21 @@
 		}
 
 		const voegToe = async () => {
-            const Name     = document.querySelector("#Name").value
+            const Name = document.querySelector("#Name").value
+            const Code = document.querySelector("#Code").value
+            const Number = document.querySelector("#Number").value
+            const Nationality = document.querySelector("#Nationality").value
             const Url = document.querySelector("#Url").value
-            const constructor    = document.querySelector("#constructor").value
-            const jsonstring = {"Name":Name, "Url":Url, "constructor_id":constructor}
+            const constructor = document.querySelector("#constructor").value
+            const jsonstring = {"Name":Name,"Code":Code,"Number":Number,"Nationality":Nationality, "Url":Url, "constructor_id":constructor}
             console.log("voeg toe: ",jsonstring)
             const respons = await axios.post(apidrivers, jsonstring, {headers: {'Content-Type': 'application/json'}})
             console.log('status code', respons.status)
+			document.querySelector("#Name").value = ''
+			document.querySelector("#Code").value = ''
+			document.querySelector("#Number").value = ''
+			document.querySelector("#Nationality").value = ''
+			document.querySelector("#Url").value = ''
             await laad()
 		}		
 
