@@ -43,7 +43,8 @@
 	<script>												
 		"use strict"
 		// const apiBasis = "http://localhost/apiFormula1"
-        const apiBasis = "https://apiformula1.azurewebsites.net/api/"
+        //const apiBasis = "https://apiformula1.azurewebsites.net/api/"
+        const apiBasis = "http://127.0.0.1:8000/api/"
         const apidrivers = apiBasis + "drivers/"
         const apiconstructors = apiBasis + "constructors/"
 		
@@ -106,6 +107,8 @@
             console.log("voeg toe: ",jsonstring)
             const respons = await axios.post(apidrivers, jsonstring, {headers: {'Content-Type': 'application/json'}})
             console.log('status code', respons.status)
+
+
 			document.querySelector("#Name").value = ''
 			document.querySelector("#Code").value = ''
 			document.querySelector("#Number").value = ''
