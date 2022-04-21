@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Gegenereerd op: 06 apr 2022 om 12:41
+-- Gegenereerd op: 19 apr 2022 om 10:59
 -- Serverversie: 5.7.31
 -- PHP-versie: 7.4.9
 
@@ -29,18 +29,18 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `constructors`;
 CREATE TABLE IF NOT EXISTS `constructors` (
-  `Constructor_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `Name` text NOT NULL,
   `Nationality` text NOT NULL,
   `URL` text NOT NULL,
-  PRIMARY KEY (`Constructor_ID`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `constructors`
 --
 
-INSERT INTO `constructors` (`Constructor_ID`, `Name`, `Nationality`, `URL`) VALUES
+INSERT INTO `constructors` (`id`, `Name`, `Nationality`, `URL`) VALUES
 (1, 'Red Bull', 'Austrian', 'http://en.wikipedia.org/wiki/Red_Bull_Racing'),
 (2, 'Mercedes', 'German', 'http://en.wikipedia.org/wiki/Mercedes-Benz_in_Formula_One'),
 (3, 'AlphaTauri', 'Italian', 'http://en.wikipedia.org/wiki/Scuderia_AlphaTauri'),
@@ -60,22 +60,22 @@ INSERT INTO `constructors` (`Constructor_ID`, `Name`, `Nationality`, `URL`) VALU
 
 DROP TABLE IF EXISTS `drivers`;
 CREATE TABLE IF NOT EXISTS `drivers` (
-  `Driver_ID` int(11) NOT NULL AUTO_INCREMENT,
-  `Team_ID` int(11) NOT NULL DEFAULT '0',
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `constructor_id` int(11) NOT NULL DEFAULT '0',
   `Name` text NOT NULL,
   `Code` text NOT NULL,
   `Number` int(11) NOT NULL,
   `Nationality` text NOT NULL,
   `Url` text NOT NULL,
-  PRIMARY KEY (`Driver_ID`),
-  KEY `TeamToDriver` (`Team_ID`)
+  PRIMARY KEY (`id`),
+  KEY `TeamToDriver` (`constructor_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `drivers`
 --
 
-INSERT INTO `drivers` (`Driver_ID`, `Team_ID`, `Name`, `Code`, `Number`, `Nationality`, `Url`) VALUES
+INSERT INTO `drivers` (`id`, `constructor_id`, `Name`, `Code`, `Number`, `Nationality`, `Url`) VALUES
 (1, 1, 'Alexander Albon', 'ALB', 23, 'Thai', 'http://en.wikipedia.org/wiki/Alexander_Albon'),
 (2, 4, 'Fernando Alonso', 'ALO', 14, 'Spanish', 'http://en.wikipedia.org/wiki/Fernando_Alonso'),
 (3, 10, 'Valtteri Bottas', 'BOT', 77, 'Finnish', 'http://en.wikipedia.org/wiki/Valtteri_Bottas'),
@@ -105,7 +105,7 @@ INSERT INTO `drivers` (`Driver_ID`, `Team_ID`, `Name`, `Code`, `Number`, `Nation
 -- Beperkingen voor tabel `drivers`
 --
 ALTER TABLE `drivers`
-  ADD CONSTRAINT `TeamToDriver` FOREIGN KEY (`Team_ID`) REFERENCES `constructors` (`Constructor_ID`);
+  ADD CONSTRAINT `TeamToDriver` FOREIGN KEY (`constructor_id`) REFERENCES `constructors` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
