@@ -45,9 +45,9 @@ class ConstructorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Constructor $constructors)
+    public function show(Constructor $constructor)
     {
-        return $constructors;
+        return $constructor;
     }
 
     /**
